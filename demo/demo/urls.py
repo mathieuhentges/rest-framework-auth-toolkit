@@ -3,13 +3,14 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from rest_auth_toolkit.views import FacebookLoginView, LoginView, LogoutView, SignupView
-
+from rest_auth_toolkit.views import FacebookLoginView, LoginView, LogoutView, \
+    SignupView, ResetPasswordView
 
 auth_urlpatterns = [
     url(r'^signup/', SignupView.as_view(), name='signup'),
     url(r'^login/', LoginView.as_view(), name='login'),
     url(r'^logout/', LogoutView.as_view(), name='logout'),
+    url(r'^password_reset/', ResetPasswordView.as_view(), name='password_reset'),
     url(r'^fb-login/', FacebookLoginView.as_view(), name='fb-login'),
 ]
 

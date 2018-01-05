@@ -45,6 +45,11 @@ class LoginDeserializer(serializers.Serializer):
         return {'user': user}
 
 
+class ForgetPasswordDeserializer(serializers.Serializer):
+    """Deserializer to find a user from email."""
+    email = serializers.EmailField()
+
+
 class FacebookLoginDeserializer(serializers.Serializer):
     """Deserializer to create users from client-side Facebook auth response."""
 

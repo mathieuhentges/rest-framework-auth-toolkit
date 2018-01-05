@@ -8,7 +8,9 @@ from rest_framework import generics, status, views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import FacebookLoginDeserializer, LoginDeserializer, SignupDeserializer
+from rest_auth_toolkit.forms import ResetPasswordForm
+from .serializers import FacebookLoginDeserializer, LoginDeserializer, \
+    SignupDeserializer, ForgetPasswordDeserializer
 from .utils import get_object_from_setting, get_setting
 
 
@@ -107,6 +109,22 @@ class LogoutView(views.APIView):
             token.revoke()
 
         return Response(status=status.HTTP_200_OK)
+
+
+class ResetPasswordView(generics.GenericAPIView):
+    """Reset password for an email
+
+    Response: 200 OK.
+    """
+    permission_classes = ()
+    serializer_class = get_object_from_setting('forget_password_serializer_class',
+                                               ForgetPasswordDeserializer)
+
+    def post(self, request):
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return Response(status=status.HTTP_200_OK)
 
 
 def send_email(request, user, address, confirmation):
